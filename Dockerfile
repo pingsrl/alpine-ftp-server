@@ -1,17 +1,17 @@
-ARG BASE_IMG=alpine:3.15
+ARG BASE_IMG=alpine:3.17
 
 FROM $BASE_IMG AS pidproxy
 
 RUN apk --no-cache add alpine-sdk \
- && git clone https://github.com/ZentriaMC/pidproxy.git \
- && cd pidproxy \
- && git checkout 193e5080e3e9b733a59e25d8f7ec84aee374b9bb \
- && sed -i 's/-mtune=generic/-mtune=native/g' Makefile \
- && make \
- && mv pidproxy /usr/bin/pidproxy \
- && cd .. \
- && rm -rf pidproxy \
- && apk del alpine-sdk
+	&& git clone https://github.com/ZentriaMC/pidproxy.git \
+	&& cd pidproxy \
+	&& git checkout 771a314ef3fc6e2c0405469f27cb0889f19ae887 \
+	&& sed -i 's/-mtune=generic/-mtune=native/g' Makefile \
+	&& make \
+	&& mv pidproxy /usr/bin/pidproxy \
+	&& cd .. \
+	&& rm -rf pidproxy \
+	&& apk del alpine-sdk
 
 
 FROM $BASE_IMG
