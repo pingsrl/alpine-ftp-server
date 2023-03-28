@@ -52,6 +52,7 @@ for i in $USERS ; do
   echo -e "$PASS\n$PASS" | adduser -h $FOLDER -s /sbin/nologin $UID_OPT $GROUP_OPT $NAME
   mkdir -p $FOLDER
   chown $NAME:$GROUP $FOLDER
+  chmod 775 $FOLDER
   unset NAME PASS FOLDER UID GID
 done
 
