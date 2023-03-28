@@ -6,7 +6,6 @@ RUN apk --no-cache add alpine-sdk \
 	&& git clone https://github.com/ZentriaMC/pidproxy.git \
 	&& cd pidproxy \
 	&& git checkout 771a314ef3fc6e2c0405469f27cb0889f19ae887 \
-	&& sed -i 's/-mtune=generic/-mtune=native/g' Makefile \
 	&& make \
 	&& mv pidproxy /usr/bin/pidproxy \
 	&& cd .. \
