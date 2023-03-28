@@ -1,6 +1,9 @@
 name: Docker hub auto publish image
 
 on:
+  # run manually
+  workflow_dispatch:
+  # run on push
   push:
     branches:
       - master
