@@ -5,7 +5,7 @@ Small and flexible docker image with vsftpd server
 ## Usage
 ```
 docker run -d \
-    -p 21:21 \
+    -p "21:21" \
     -p 21000-21010:21000-21010 \
     -e USERS="one|1234" \
     -e ADDRESS=ftp.site.domain \
@@ -17,7 +17,7 @@ docker run -d \
 Environment variables:
 - `USERS` - space and `|` separated list (optional, default: `alpineftp|alpineftp`)
   - format `name1|password1|[folder1][|uid1][|gid1] name2|password2|[folder2][|uid2][|gid2]`
-- `ADDRESS` - external address witch clients can connect passive ports (optional, should resolve to ftp server ip address)
+- `ADDRESS` - external address to which clients can connect for passive ports (optional, should resolve to ftp server ip address)
 - `MIN_PORT` - minimum port number to be used for passive connections (optional, default `21000`)
 - `MAX_PORT` - maximum port number to be used for passive connections (optional, default `21010`)
 
@@ -42,12 +42,13 @@ docker run -it --rm \
     --standalone \
     --preferred-challenges http \
     -n --agree-tos \
-    --email i@delfer.ru 
+    --email i@delfer.ru \
     -d ftp.site.domain
 docker run -d \
     --name ftp \
-    -p 21:21 \
+    -p "21:21" \
     -p 21000-21010:21000-21010 \
+    -v "/etc/letsencrypt:/etc/letsencrypt:ro" \
     -e USERS="one|1234" \
     -e ADDRESS=ftp.site.domain \
     -e TLS_CERT="/etc/letsencrypt/live/ftp.site.domain/fullchain.pem" \
@@ -58,3 +59,19 @@ docker run -d \
 - Do not forget to replace ftp.site.domain with actual domain pointing to your server's IP.
 - Be sure you have avalible port 80 for standalone mode of certbot to issue certificate.
 - Do not forget to renew certificate in 3 month with `certbot renew` command.
+
+## Via docker-compose
+```
+alpine-ftp-server:
+  image: delfer/alpine-ftp-server
+  ports:
+    - "21:21"
+    - 21000-21010:21000-21010
+  environment:
+    - USERS="one|1234"
+    - ADDRESS=ftp.site.domain
+  volumes:
+    - ...
+```
+- If translating the docker run commands to docker-compose files (which uses YAML format), note that YAML parses numbers in
+  the format xx:yy as a base-60 value if the number is less than 60, so 21:21 must be specified as a quoted string

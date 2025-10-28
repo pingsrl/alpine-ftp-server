@@ -1,4 +1,4 @@
-ARG BASE_IMG=alpine:3.17
+ARG BASE_IMG=alpine:3.19
 
 FROM $BASE_IMG AS pidproxy
 
@@ -22,6 +22,5 @@ COPY start_vsftpd.sh /bin/start_vsftpd.sh
 COPY vsftpd.conf /etc/vsftpd/vsftpd.conf
 
 EXPOSE 21 21000-21010
-VOLUME /ftp/ftp
 
 ENTRYPOINT ["/sbin/tini", "--", "/bin/start_vsftpd.sh"]

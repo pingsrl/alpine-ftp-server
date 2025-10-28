@@ -50,7 +50,7 @@ for i in $USERS ; do
   fi
 
   echo -e "$PASS\n$PASS" | adduser -h $FOLDER -s /sbin/nologin $UID_OPT $GROUP_OPT $NAME
-  mkdir -p $FOLDER
+  mkdir -m 750 -p $FOLDER
   chown $NAME:$GROUP $FOLDER
   chmod 775 $FOLDER
   unset NAME PASS FOLDER UID GID
@@ -70,7 +70,7 @@ if [ ! -z "$ADDRESS" ]; then
 fi
 
 if [ ! -z "$TLS_CERT" ] || [ ! -z "$TLS_KEY" ]; then
-  TLS_OPT="-orsa_cert_file=$TLS_CERT -orsa_private_key_file=$TLS_KEY -ossl_enable=YES -oallow_anon_ssl=NO -oforce_local_data_ssl=YES -oforce_local_logins_ssl=YES -ossl_tlsv1=YES -ossl_sslv2=NO -ossl_sslv3=NO -ossl_ciphers=HIGH"
+  TLS_OPT="-orsa_cert_file=$TLS_CERT -orsa_private_key_file=$TLS_KEY -ossl_enable=YES -oallow_anon_ssl=NO -oforce_local_data_ssl=YES -oforce_local_logins_ssl=YES -ossl_tlsv1=NO -ossl_sslv2=NO -ossl_sslv3=NO -ossl_ciphers=HIGH"
 fi
 
 # Used to run custom commands inside container
