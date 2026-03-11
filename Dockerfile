@@ -1,16 +1,19 @@
-ARG BASE_IMG=alpine:3.19
+ARG BASE_IMG=alpine:3.23.3
 
 FROM $BASE_IMG AS pidproxy
 
-RUN apk --no-cache add alpine-sdk \
+ARG PIDPROXY_REF=fd9938d22564cdab78e8cb3d4774589f9af55bea
+# pidproxy 2025.12.1
+
+RUN apk --no-cache add build-base git \
 	&& git clone https://github.com/ZentriaMC/pidproxy.git \
 	&& cd pidproxy \
-	&& git checkout 771a314ef3fc6e2c0405469f27cb0889f19ae887 \
+	&& git -c advice.detachedHead=false checkout "${PIDPROXY_REF}" \
 	&& make \
 	&& mv pidproxy /usr/bin/pidproxy \
 	&& cd .. \
 	&& rm -rf pidproxy \
-	&& apk del alpine-sdk
+	&& apk del build-base git
 
 
 FROM $BASE_IMG
