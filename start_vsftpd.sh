@@ -16,6 +16,31 @@ grep '/ftp/' /etc/passwd | cut -d':' -f1 | xargs -r -n1 deluser
 
 #Default user 'ftp' with password 'alpineftp'
 
+apply_acl_rules() {
+  if [ -z "$ACL_RULES" ]; then
+    return 0
+  fi
+
+  for RULE in $ACL_RULES; do
+    [ -n "$RULE" ] || continue
+
+    TARGET=${RULE%%|*}
+    ACL_SPEC=${RULE#*|}
+
+    if [ -z "$TARGET" ] || [ "$ACL_SPEC" = "$RULE" ] || [ -z "$ACL_SPEC" ]; then
+      echo "Invalid ACL_RULES entry: $RULE" >&2
+      return 1
+    fi
+
+    if [ ! -e "$TARGET" ]; then
+      echo "ACL target does not exist: $TARGET" >&2
+      return 1
+    fi
+
+    setfacl -m "$ACL_SPEC" -- "$TARGET" || return 1
+  done
+}
+
 if [ -z "$USERS" ]; then
   USERS="alpineftp|alpineftp"
 fi
@@ -55,6 +80,9 @@ for i in $USERS ; do
   chmod 775 $FOLDER
   unset NAME PASS FOLDER UID GID
 done
+
+# Apply optional ACLs after users and directories exist.
+apply_acl_rules || exit 1
 
 
 if [ -z "$MIN_PORT" ]; then

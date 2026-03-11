@@ -20,6 +20,9 @@ Environment variables:
 - `ADDRESS` - external address to which clients can connect for passive ports (optional, should resolve to ftp server ip address)
 - `MIN_PORT` - minimum port number to be used for passive connections (optional, default `21000`)
 - `MAX_PORT` - maximum port number to be used for passive connections (optional, default `21010`)
+- `ACL_RULES` - optional space and `|` separated list of `path|acl_entries` rules applied with `setfacl -m` after user creation
+  - `acl_entries` follows `setfacl` syntax, so access entries like `u:one:rwx` and default entries like `default:u:one:rwx` are supported
+  - target paths must already exist and the underlying filesystem must support POSIX ACLs
 
 ## USERS examples
 
@@ -28,6 +31,20 @@ Environment variables:
 - `user|password|/home/user/dir|10000|10000`
 - `user|password||10000`
 - `user|password||10000|82` : add to an existing group (www-data)
+
+## ACL_RULES examples
+
+- `/ftp/shared|u:one:rwx,u:two:rx`
+- `/ftp/shared|u:one:rwx,default:u:one:rwx /ftp/shared|u:two:rx,default:u:two:rx`
+
+docker-compose YAML example:
+
+```yaml
+environment:
+  ACL_RULES: >-
+    /ftp/shared|u:one:rwx,default:u:one:rwx
+    /ftp/shared|u:two:r-x,default:u:two:r-x
+```
 
 ## FTPS (File Transfer Protocol + SSL) Example
 

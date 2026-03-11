@@ -19,7 +19,7 @@ RUN apk --no-cache add build-base git \
 FROM $BASE_IMG
 
 COPY --from=pidproxy /usr/bin/pidproxy /usr/bin/pidproxy
-RUN apk --no-cache add vsftpd tini iproute2 procps busybox-extras
+RUN apk --no-cache add vsftpd tini iproute2 procps busybox-extras acl
 
 COPY start_vsftpd.sh /bin/start_vsftpd.sh
 COPY vsftpd.conf /etc/vsftpd/vsftpd.conf
