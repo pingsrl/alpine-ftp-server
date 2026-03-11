@@ -1,5 +1,5 @@
 # docker-alpine-ftp-server
-[![Docker Stars](https://img.shields.io/docker/stars/delfer/alpine-ftp-server.svg)](https://hub.docker.com/r/delfer/alpine-ftp-server/) [![Docker Pulls](https://img.shields.io/docker/pulls/delfer/alpine-ftp-server.svg)](https://hub.docker.com/r/delfer/alpine-ftp-server/) [![Docker Automated build](https://img.shields.io/docker/automated/delfer/alpine-ftp-server.svg)](https://hub.docker.com/r/delfer/alpine-ftp-server/) [![Docker Build Status](https://img.shields.io/docker/build/delfer/alpine-ftp-server.svg)](https://hub.docker.com/r/delfer/alpine-ftp-server/) [![MicroBadger Layers](https://img.shields.io/microbadger/layers/delfer/alpine-ftp-server.svg)](https://hub.docker.com/r/delfer/alpine-ftp-server/) [![MicroBadger Size](https://img.shields.io/microbadger/image-size/delfer/alpine-ftp-server.svg)](https://hub.docker.com/r/delfer/alpine-ftp-server/)  
+[![Docker Stars](https://img.shields.io/docker/stars/pingsrl/alpine-ftp-server.svg)](https://hub.docker.com/r/pingsrl/alpine-ftp-server/) [![Docker Pulls](https://img.shields.io/docker/pulls/pingsrl/alpine-ftp-server.svg)](https://hub.docker.com/r/pingsrl/alpine-ftp-server/) [![Docker Automated build](https://img.shields.io/docker/automated/pingsrl/alpine-ftp-server.svg)](https://hub.docker.com/r/pingsrl/alpine-ftp-server/) [![Docker Build Status](https://img.shields.io/docker/build/pingsrl/alpine-ftp-server.svg)](https://hub.docker.com/r/pingsrl/alpine-ftp-server/) [![MicroBadger Layers](https://img.shields.io/microbadger/layers/pingsrl/alpine-ftp-server.svg)](https://hub.docker.com/r/pingsrl/alpine-ftp-server/) [![MicroBadger Size](https://img.shields.io/microbadger/image-size/pingsrl/alpine-ftp-server.svg)](https://hub.docker.com/r/pingsrl/alpine-ftp-server/)  
 Small and flexible docker image with vsftpd server
 
 ## Usage
@@ -9,7 +9,7 @@ docker run -d \
     -p 21000-21010:21000-21010 \
     -e USERS="one|1234" \
     -e ADDRESS=ftp.site.domain \
-    delfer/alpine-ftp-server
+    pingsrl/alpine-ftp-server
 ```
 
 ## Configuration
@@ -70,7 +70,7 @@ docker run -d \
     -e ADDRESS=ftp.site.domain \
     -e TLS_CERT="/etc/letsencrypt/live/ftp.site.domain/fullchain.pem" \
     -e TLS_KEY="/etc/letsencrypt/live/ftp.site.domain/privkey.pem" \
-    delfer/alpine-ftp-server
+    pingsrl/alpine-ftp-server
 ```
 
 - Do not forget to replace ftp.site.domain with actual domain pointing to your server's IP.
@@ -80,7 +80,7 @@ docker run -d \
 ## Via docker-compose
 ```
 alpine-ftp-server:
-  image: delfer/alpine-ftp-server
+  image: pingsrl/alpine-ftp-server
   ports:
     - "21:21"
     - 21000-21010:21000-21010
